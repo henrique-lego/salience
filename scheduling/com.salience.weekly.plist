@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Salience weekly digest – runs every Sunday at 9:07 AM -->
+    <!-- Edit paths below to match your system -->
+
+    <key>Label</key>
+    <string>com.salience.weekly</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- Replace with your uv path: `which uv` -->
+        <string>/opt/homebrew/bin/uv</string>
+        <string>run</string>
+        <string>salience</string>
+        <string>digest</string>
+    </array>
+
+    <!-- Replace with the absolute path to your salience project directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/YOURUSER/source/workspaces/salience</string>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer> <!-- Sunday -->
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>7</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/salience-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/salience-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <!-- Option A: set credentials directly -->
+        <!--
+        <key>ANTHROPIC_AUTH_TOKEN</key>
+        <string>sk-ant-...</string>
+        <key>X_API_BEARER_TOKEN</key>
+        <string>...</string>
+        <key>X_API_CLIENT_ID</key>
+        <string>...</string>
+        <key>X_API_CLIENT_SECRET</key>
+        <string>...</string>
+        <key>X_API_USER_ID</key>
+        <string>...</string>
+        -->
+
+        <!-- Option B: inherit from shell profile (if using Keychain bridge in .zshrc) -->
+        <!-- launchd doesn't source .zshrc — use install.sh to inject credentials -->
+    </dict>
+</dict>
+</plist>
