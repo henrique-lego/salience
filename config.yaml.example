@@ -1,0 +1,55 @@
+# Salience configuration – copy to config.yaml and fill in your values.
+# Credentials live in environment variables (see .env.example), not here.
+
+vault:
+  # Absolute path to your Obsidian vault
+  path: /path/to/your/vault
+
+  # Directories containing entity notes for wikilink resolution
+  entity_directories:
+    - people/
+    - concepts/
+
+  # Tag vocabulary – Salience maps bookmark domains to these tags in output
+  tag_vocabulary:
+    work:
+      - automation
+      - agents
+      - analytics-engineering
+      - databricks
+    personal:
+      - personal
+      - household
+      - finance
+    content:
+      - plugins
+      - mcp-servers
+      - workflow
+      - claude-code
+
+  # Directories to scan for context assembly (glob patterns relative to vault path)
+  scan_paths:
+    - "202*/**/*.md"
+    - "claude-code/**/*.md"
+    - "media-extracts/*.md"
+    - "concepts/*.md"
+    - "people/*.md"
+    - "reference/**/*.md"
+
+  # Where Salience writes digests (relative to vault path)
+  salience_output_dir: salience/
+
+  # Ideas backlog file (relative to vault path)
+  ideas_file: claude-code/ideas.md
+
+# Claude model IDs – defaults work with the standard Anthropic API.
+# Override for corporate gateways (e.g. anthropic.claude-opus-4-6-v1).
+models:
+  classify: claude-haiku-4-5-20251001
+  evaluate_single: claude-sonnet-4-5-20250929
+  evaluate_cluster: claude-opus-4-6
+  rank: claude-opus-4-6
+  interest: claude-opus-4-6
+
+# Path to the processed bookmarks ledger (absolute or relative to project root)
+processed_ledger_path: processed.json
