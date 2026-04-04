@@ -165,13 +165,11 @@ def get_valid_access_token(
     """
     tokens = load_tokens(token_path)
     if not tokens:
-        raise RuntimeError(
-            "No tokens found. Run `salience auth` first to authorize with X."
-        )
+        logger.info("No tokens found. Launching authorization flow.")
+        tokens = authorize(client_id, token_path)
+        return tokens["access_token"]
 
-    # Try the existing access token first — if it fails during API call,
-    # the caller should catch 401 and call refresh.
-    # For now, always try to refresh if we have a refresh token,
+    # Always try to refresh if we have a refresh token,
     # since access tokens are short-lived (~2h).
     refresh_token = tokens.get("refresh_token")
     if refresh_token:
@@ -183,6 +181,8 @@ def get_valid_access_token(
             save_tokens(new_tokens, token_path)
             return new_tokens["access_token"]
         except httpx.HTTPStatusError:
-            logger.warning("Token refresh failed. Using existing access token.")
+            logger.warning("Token refresh failed. Re-authorizing.")
+            tokens = authorize(client_id, token_path)
+            return tokens["access_token"]
 
     return tokens["access_token"]
