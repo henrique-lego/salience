@@ -1,6 +1,7 @@
 # CLI entry point – three commands: run, digest, reprocess
 import asyncio
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Annotated, Optional
@@ -125,10 +126,11 @@ async def _run_pipeline(
     if interactive:
         console.print("\n[bold]--- Digest Preview ---[/bold]\n")
         console.print(digest_content)
-        confirm = typer.confirm("\nWrite digest to vault?")
-        if not confirm:
-            console.print("[dim]Aborted – nothing written.[/dim]")
-            return
+        if sys.stdin.isatty():
+            confirm = typer.confirm("\nWrite digest to vault?", default=True)
+            if not confirm:
+                console.print("[dim]Aborted – nothing written.[/dim]")
+                return
 
     # Write outputs
     digest_path = write_digest(digest_content, today, config.vault)
