@@ -125,7 +125,7 @@ async def _run_pipeline(
     if interactive:
         console.print("\n[bold]--- Digest Preview ---[/bold]\n")
         console.print(digest_content)
-        confirm = typer.confirm("\nWrite digest to vault?")
+        confirm = typer.confirm("\nWrite digest to vault?", default=True)
         if not confirm:
             console.print("[dim]Aborted – nothing written.[/dim]")
             return
